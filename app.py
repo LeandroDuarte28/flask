@@ -1,10 +1,12 @@
 from flask import Flask, render_template
 app = Flask(__name__)
 
+#rota
 @app.route('/')
 def principal():
     nome = "Leandro"
     idade = 44
+    #reinderizando dentro do html
     return render_template('index.html')
 
 @app.route('/sobre')
