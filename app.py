@@ -13,4 +13,5 @@ def principal():
 def sobre():
     return render_template('sobre.html')
 
-#http://127.0.0.1:5000/
+# Acesso para o servidor
+# http://127.0.0.1:5000/
