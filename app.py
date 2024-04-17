@@ -21,3 +21,6 @@ def sobre():
             registros.append({"aluno": request.form.get("aluno"), "nota": request.form.get("nota")})
 
     return render_template('sobre.html', registros=registros)
+
+# seta como ambiente de desenvolvimento
+app.run(debug=True)
