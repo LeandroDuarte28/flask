@@ -1,10 +1,26 @@
 from flask import Flask, render_template, request
 import urllib.request, json
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cursos.sqlite3'
+
+db = SQLAlchemy(app)
+
 frutas = []
 registros = []
+
+class cursos(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(50))
+    descricao = db.Column(db.String(100))
+    ch = db.Column(db.Integer)
+
+    def __init__(self, nome, descricao, ch):
+        self.nome = nome
+        self.descricao = descricao
+        self.ch = ch
 
 #rota
 @app.route('/', methods=["GET","POST"])
@@ -46,5 +62,7 @@ def filmes(propriedade):
     return render_template("filmes.html", filmes=jsondata['results'])
 
 # seta como ambiente de desenvolvimento
-if __name__=="__main__":
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
