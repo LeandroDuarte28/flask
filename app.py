@@ -66,6 +66,10 @@ def lista_cursos():
     #retorna o conteudo da tabela cursos mapeado no SQLAlquemy, reinderizando na pagina cursos.html
     return render_template("cursos.html", cursos=cursos.query.all())
 
+@app.route('/cria_curso')
+def cria_curso():
+    return render_template("novo_curso.html")
+
 # seta como ambiente de desenvolvimento
 if __name__ == "__main__":
     with app.app_context():
