@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request
-import urllib.request, json
+from flask import Flask, render_template, request, flash, url_for, redirect
+import urllib.request, json, ipdb;
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -66,8 +66,18 @@ def lista_cursos():
     #retorna o conteudo da tabela cursos mapeado no SQLAlquemy, reinderizando na pagina cursos.html
     return render_template("cursos.html", cursos=cursos.query.all())
 
-@app.route('/cria_curso')
+@app.route('/cria_curso', methods=["GET", "POST"])
 def cria_curso():
+    nome = request.form.get('nome')
+    descricao = request.form.get('descricao')
+    ch = request.form.get('ch')
+
+    if request.method == "POST":
+        curso = cursos(nome, descricao, ch)
+        db.session.add(curso)
+        db.session.commit()
+        return redirect(url_for('lista_cursos'))
+    #ipdb.set_trace()
     return render_template("novo_curso.html")
 
 # seta como ambiente de desenvolvimento
