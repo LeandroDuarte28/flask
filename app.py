@@ -96,6 +96,13 @@ def atualiza_curso(id):
         return redirect(url_for('lista_cursos'))
     return render_template("atualiza_curso.html", curso=curso)
 
+@app.route('/<int:id>/remove_curso')
+def remove_curso(id):
+    curso = cursos.query.filter_by(id=id).first()
+    db.session.delete(curso)
+    db.session.commit()
+    return redirect(url_for('lista_cursos'))
+
 # seta como ambiente de desenvolvimento
 if __name__ == "__main__":
     with app.app_context():
