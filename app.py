@@ -73,12 +73,20 @@ def cria_curso():
     ch = request.form.get('ch')
 
     if request.method == "POST":
-        curso = cursos(nome, descricao, ch)
-        db.session.add(curso)
-        db.session.commit()
-        return redirect(url_for('lista_cursos'))
+        if not nome or not descricao or not ch:
+            flash("Preencha todos os campos do formulário","error")
+        else:
+            curso = cursos(nome, descricao, ch)
+            db.session.add(curso)
+            db.session.commit()
+            return redirect(url_for('lista_cursos'))
     #ipdb.set_trace()
     return render_template("novo_curso.html")
+
+@app.route('/<int:id>/atualiza_curso', methods=["GET", "POST"])
+def atualiza_curso(id):
+    curso = cursos.query.filter_by(id=id).first()
+    return render_template("atualiza_curso.html", curso=curso)
 
 # seta como ambiente de desenvolvimento
 if __name__ == "__main__":
