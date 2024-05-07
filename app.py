@@ -64,7 +64,10 @@ def filmes(propriedade):
 @app.route('/cursos')
 def lista_cursos():
     #retorna o conteudo da tabela cursos mapeado no SQLAlquemy, reinderizando na pagina cursos.html
-    return render_template("cursos.html", cursos=cursos.query.all())
+    page = request.args.get('page', 1, type=int)
+    per_page = 4
+    todos_cursos = cursos.query.paginate(page, per_page)
+    return render_template("cursos.html", cursos=todos_cursos)
 
 @app.route('/cria_curso', methods=["GET", "POST"])
 def cria_curso():
@@ -103,7 +106,7 @@ def remove_curso(id):
     db.session.commit()
     return redirect(url_for('lista_cursos'))
 
-# seta como ambiente de desenvolvimento
+# seta como ambiente de desenvolvimento;
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
